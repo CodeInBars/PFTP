@@ -30,8 +30,8 @@ public class ControladorServlet extends HttpServlet {
 		out.println("<HEAD><TITLE>Formulario Alumno</TITLE></HEAD>");
 		out.println("<BODY>");
 		out.println("<table><tr><td>Nombre</td><td>Apellido</td><td>Curso</td></tr>");
-		out.println("<tr><td><input type='text' value='nombre'></td>");
-		out.println("<td><input type='text' value='apellido'></td>");
+		out.println("<tr><td><input type='text' id='nombre' placeholder='Nombre'></td>");
+		out.println("<td><input type='text' id='apellido' placeholder='Apellido'></td>");
 		out.println("<td> <select>\n" + 
 				"  <option value='1DAM'>1DAM</option>\n" + 
 				"  <option value='2DAM'>2DAM</option>\n" + 
