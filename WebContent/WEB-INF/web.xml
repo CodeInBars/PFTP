@@ -4,7 +4,7 @@
 
    <!-- ======================== Servlet Declarations============================== -->
     <servlet>
-        <servlet-name>Form</servlet-name>
+        <servlet-name>form</servlet-name>
         <servlet-class>ControladorServlet</servlet-class>  
     </servlet>
 
@@ -14,8 +14,8 @@
 
 
     <servlet-mapping>
-        <servlet-name>Form</servlet-name>
-        <url-pattern>/Form</url-pattern>
+        <servlet-name>form</servlet-name>
+        <url-pattern>/form</url-pattern>
     </servlet-mapping>
   
   
