@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ControladorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static ArrayList<Persona> persona = new ArrayList<Persona>();
 
     public ControladorServlet() {
         super();
@@ -26,20 +27,19 @@ public class ControladorServlet extends HttpServlet {
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		out.println("<HTML>");
-		out.println("<HEAD><TITLE>Formulario Alumno</TITLE></HEAD>");
-		out.println("<BODY>");
-		out.println("<table><tr><td>Nombre</td><td>Apellido</td><td>Curso</td></tr>");
-		out.println("<tr><td><input type='text' id='nombre' placeholder='Nombre'></td>");
-		out.println("<td><input type='text' id='apellido' placeholder='Apellido'></td>");
-		out.println("<td> <select>\n" + 
-				"  <option value='1DAM'>1DAM</option>\n" + 
-				"  <option value='2DAM'>2DAM</option>\n" + 
-				"</select> </td></tr>");
-		out.println("</table>");
 		
-		out.println("<br>");
-		out.println("</BODY></HTML>");
+		String nombre = request.getParameter("nombre");
+		String apellido = request.getParameter("apellido");
+		String curso = request.getParameter("curso");
+		
+		Persona p = new Persona(nombre,apellido,curso);
+		
+		persona.add(p);
+		out.println("<table><tr><td>Nombre</td><td>Apellido</td><td>Curso</td></tr>");
+		for(Persona pers : persona) {
+			out.println("<tr><td>" + pers.getNombre() + "</td><td>" + pers.getApellido() +"</td><td>" + pers.getCurso() + "</td></tr>");
+		}
+		out.println("</table>");
 		
 	}
 
