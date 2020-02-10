@@ -11,7 +11,7 @@
 		var curso = document.getElementById("curso").value;
 		
 		var request = new XMLHttpRequest();
-		request.open("POST","ControladorServlet", true);
+		request.open("POST","form", true);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		request.onreadystatechange = function(){
 			if(request.readystate == 4 && request.status == 200){
@@ -23,20 +23,21 @@
 			}
 		};
 		request.send("nombre="+nombre+"&apellido="+apellido+"&curso="+curso);
+
 	}
 </script>
 
 
 </head>
 <body>
-<form onsubmit="enviarDatos()">
+<form action="form" method="get">
 	Nombre: <input type="text" id="nombre"/><br/>
 	Apellido: <input type="text" id="apellido"/><br/>
 	<select>
 		<option value='1DAM' id="curso">1DAM</option>
 		<option value='2DAM' id="curso">2DAM</option>
 	</select>
-	<button type="button" onclick="enviarDatos()">Alta</button>
+	<button type="submit" onclick="enviarDatos()">Alta</button>
 </form>
 <div id="tabla"></div>
 </body>
