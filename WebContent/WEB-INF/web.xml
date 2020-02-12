@@ -12,12 +12,19 @@
 		<servlet-name>form</servlet-name>
 		<servlet-class>ControladorServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>ftp</servlet-name>
+		<servlet-class>ServletFtp</servlet-class>
+	</servlet>
 	<!-- ========================= Servlet Mappings ================================ -->
 	<servlet-mapping>
 		<servlet-name>form</servlet-name>
 		<url-pattern>/form</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+		<servlet-name>ftp</servlet-name>
+		<url-pattern>/ftp</url-pattern>
+	</servlet-mapping>
 
 
 </web-app>
