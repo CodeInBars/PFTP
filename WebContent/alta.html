@@ -4,55 +4,60 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ftp</title>
 <script>
-    
-function addDir(){
+	function addDir() {
+		
 	
-	var request = new XMLHttpRequest();
-    request.open("POST", "ftp", true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.onreadystatechange = function() {
-            // si la respuesta fue exitosa
-            if(request.readyState == 4 && request.status == 200) {
-                    
-            } 
-            // si la respuesta trajo error
-            else if(request.readyState == 4 && request.status != 200){
-                    
-            }
-    };
-}
-    
-function enviarDatos(){   
-	
-    var nombreVar = document.getElementById("nombre").value;
-    var apellidoVar = document.getElementById("apellido").value;
-    var cursoVar = document.getElementById("curso").value;
+		var request = new XMLHttpRequest();
+		request.open("POST", "ftp", true);
+		request.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		request.onreadystatechange = function() {
+			// si la respuesta fue exitosa
+			if (request.readyState == 4 && request.status == 200) {
+				alert('todo perfect0');
+			}
+			// si la respuesta trajo error
+			else if (request.readyState == 4 && request.status != 200) {
+				alert('todo  mal');
+			}
+		};
+		
+		request.send();
+	}
 
-                var request = new XMLHttpRequest();
-                request.open("POST", "form", true);
-                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                request.onreadystatechange = function() {
-                        // si la respuesta fue exitosa
-                        if(request.readyState == 4 && request.status == 200) {
-                                document.getElementById("tabla").innerHTML = this.responseText;
-                        } 
-                        // si la respuesta trajo error
-                        else if(request.readyState == 4 && request.status != 200){
-                                document.getElementById("tabla").innerHTML = this.responseText;
-                        }
-                };
-                request.send("nombre="+nombreVar+"&apellido="+apellidoVar+"&curso="+cursoVar);
- }   
+	function enviarDatos() {
+
+		var nombreVar = document.getElementById("nombre").value;
+		var apellidoVar = document.getElementById("apellido").value;
+		var cursoVar = document.getElementById("curso").value;
+
+		var request = new XMLHttpRequest();
+		request.open("POST", "form", true);
+		request.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		request.onreadystatechange = function() {
+			// si la respuesta fue exitosa
+			if (request.readyState == 4 && request.status == 200) {
+				document.getElementById("tabla").innerHTML = this.responseText;
+			}
+			// si la respuesta trajo error
+			else if (request.readyState == 4 && request.status != 200) {
+				document.getElementById("tabla").innerHTML = this.responseText;
+			}
+		};
+		request.send("nombre=" + nombreVar + "&apellido=" + apellidoVar
+				+ "&curso=" + cursoVar);
+	}
 </script>
 </head>
 <body>
 	<h2>Ejemplo de AJAX con Servelts</h2>
 	<form id="form1" onsubmit="enviarDatos()">
-		Nombre:<input type="text" id="nombre" /> <br>
-		Apellido: <input type="text" id="apellido" /> <br>
-		Curso: <input type="text" id="curso" /> <br>
-		
-        <button type="button" onclick="enviarDatos()">Añadir</button>
+		Nombre:<input type="text" id="nombre" /> <br> Apellido: <input
+			type="text" id="apellido" /> <br> Curso: <input type="text"
+			id="curso" /> <br>
+
+		<button type="button" onclick="enviarDatos()">Añadir</button>
 	</form>
 	<br>
 	<!-- 	En este div metemos el contenido de la tabla con AJAX -->

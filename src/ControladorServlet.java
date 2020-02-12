@@ -49,7 +49,7 @@ public class ControladorServlet extends HttpServlet {
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getNombre()+"</td>");			
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getApellido()+"</td>");	
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getCurso()+"</td>");
-			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>" + "<input type='button' onClick='addDir()' value='Crear directorio'/>" +"</td>");
+			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>" + "<input type='button' onclick='addDir()' value='Crear directorio'/>" +"</td>");
 			out.println("</tr>");
 		}
 		out.println("</table>");

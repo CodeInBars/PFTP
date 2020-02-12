@@ -41,7 +41,7 @@ public class ServletFtp extends HttpServlet {
 		response.setContentType( "text/html; charset=UTF-8" );
 		PrintWriter out = response.getWriter();
 		ControladorFTP ftp = new ControladorFTP();
-		ftp.crearDir("ManuIsma");
+		ftp.crearDir("Funciona");
 		out.println("Hecho");
 	}
 
