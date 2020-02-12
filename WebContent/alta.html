@@ -11,10 +11,8 @@ function enviarDatos(){
   
     var nombreVar = document.getElementById("nombre").value;
     var apellidoVar = document.getElementById("apellido").value;
-    var cusroVar = document.getElementById("curso").value;
-    
+    var cursoVar = document.getElementById("curso").value;
 
-    
                 var request = new XMLHttpRequest();
                 request.open("POST", "form", true);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -29,8 +27,6 @@ function enviarDatos(){
                         }
                 };
                 request.send("nombre="+nombreVar+"&apellido="+apellidoVar+"&curso="+cursoVar);
-   
- 
  }   
 
 </script>

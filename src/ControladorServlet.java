@@ -40,14 +40,16 @@ public class ControladorServlet extends HttpServlet {
 		out.println("<tr>");
 		out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'> NOMBRE </td>");			
 		out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'> APELLIDOS </td>");		
-		out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'> CURSO </td>");		
+		out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'> CURSO </td>");
+		out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'> FTP </td>");
 		out.println("</tr>");
 		for(int i=0; i<personas.size(); i++){
 			Persona persona = personas.get(i);
 			out.println("<tr>");
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getNombre()+"</td>");			
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getApellido()+"</td>");	
-			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getCurso()+"</td>");	
+			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getCurso()+"</td>");
+			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>" + "<input type='button' onClick='addDir' value='Crear directorio'/>" +"</td>");
 			out.println("</tr>");
 		}
 		out.println("</table>");
