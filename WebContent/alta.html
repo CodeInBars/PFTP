@@ -1,44 +1,51 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Alta alumno</title>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AJAX JSP Servelts</title>
 <script>
-	function enviarDatos() {
-		var nombre = document.getElementById("nombre").value;
-		var apellido = document.getElementById("apellido").value;
-		var curso = document.getElementById("curso").value;
-		
-		var request = new XMLHttpRequest();
-		request.open("POST","form", true);
-		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		request.onreadystatechange = function(){
-			if(request.readystate == 4 && request.status == 200){
-				document.getElementById("tabla").innerHTML = this.responseText;
-			}else{
-				if(request.readystate == 4 && equest.status != 200){
-					document.getElementById("tabla").innerHTML = this.responseText;
-				}
-			}
-		};
-		request.send("nombre="+nombre+"&apellido="+apellido+"&curso="+curso);
+    
+function enviarDatos(){   
+ 
+    
+  
+    var nombreVar = document.getElementById("nombre").value;
+    var apellidoVar = document.getElementById("apellido").value;
+    var cusroVar = document.getElementById("curso").value;
+    
 
-	}
+    
+                var request = new XMLHttpRequest();
+                request.open("POST", "form", true);
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                request.onreadystatechange = function() {
+                        // si la respuesta fue exitosa
+                        if(request.readyState == 4 && request.status == 200) {
+                                document.getElementById("tabla").innerHTML = this.responseText;
+                        } 
+                        // si la respuesta trajo error
+                        else if(request.readyState == 4 && request.status != 200){
+                                document.getElementById("tabla").innerHTML = this.responseText;
+                        }
+                };
+                request.send("nombre="+nombreVar+"&apellido="+apellidoVar+"&curso="+cursoVar);
+   
+ 
+ }   
+
 </script>
-
-
 </head>
 <body>
-<form action="form" method="get">
-	Nombre: <input type="text" id="nombre"/><br/>
-	Apellido: <input type="text" id="apellido"/><br/>
-	<select>
-		<option value='1DAM' id="curso">1DAM</option>
-		<option value='2DAM' id="curso">2DAM</option>
-	</select>
-	<button type="submit" onclick="enviarDatos()">Alta</button>
-</form>
-<div id="tabla"></div>
+	<h2>Ejemplo de AJAX con Servelts</h2>
+	<form id="form1" onsubmit="enviarDatos()">
+		Nombre:<input type="text" id="nombre" /> <br>
+		Apellido: <input type="text" id="apellido" /> <br>
+		Curso: <input type="text" id="curso" /> <br>
+		
+        <button type="button" onclick="enviarDatos()">Añadir</button>
+	</form>
+	<br>
+	<!-- 	En este div metemos el contenido de la tabla con AJAX -->
+	<div id="tabla"></div>
 </body>
 </html>
