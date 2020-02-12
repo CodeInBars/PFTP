@@ -29,7 +29,6 @@ public class ServletFtp extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ControladorFTP ftp = new ControladorFTP("putavidatt");
 	}
 
 	/**
@@ -40,9 +39,10 @@ public class ServletFtp extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType( "text/html; charset=UTF-8" );
 		PrintWriter out = response.getWriter();
+		String nombre = request.getParameter("nombre");
+		String email = request.getParameter("email");
 		ControladorFTP ftp = new ControladorFTP();
-		ftp.crearDir("Funciona");
-		out.println("Hecho");
+		ftp.crearDir(nombre,email);
 	}
 
 }

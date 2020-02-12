@@ -5,8 +5,8 @@
 <title>ftp</title>
 <script>
 	function addDir() {
-		
-	
+		var nombreVar = document.getElementById("nombre").value;
+		var emailVar = document.getElementById("email").value;
 		var request = new XMLHttpRequest();
 		request.open("POST", "ftp", true);
 		request.setRequestHeader("Content-type",
@@ -14,15 +14,15 @@
 		request.onreadystatechange = function() {
 			// si la respuesta fue exitosa
 			if (request.readyState == 4 && request.status == 200) {
-				alert('todo perfect0');
+				alert('todo perfecto');
 			}
 			// si la respuesta trajo error
 			else if (request.readyState == 4 && request.status != 200) {
-				alert('todo  mal');
+				alert('todo perfecto');
 			}
 		};
 		
-		request.send();
+		request.send("nombre=" + nombreVar + "&email=" + emailVar);
 	}
 
 	function enviarDatos() {
@@ -30,6 +30,7 @@
 		var nombreVar = document.getElementById("nombre").value;
 		var apellidoVar = document.getElementById("apellido").value;
 		var cursoVar = document.getElementById("curso").value;
+		
 
 		var request = new XMLHttpRequest();
 		request.open("POST", "form", true);
@@ -46,7 +47,7 @@
 			}
 		};
 		request.send("nombre=" + nombreVar + "&apellido=" + apellidoVar
-				+ "&curso=" + cursoVar);
+				+ "&curso=" + cursoVar );
 	}
 </script>
 </head>
@@ -56,6 +57,7 @@
 		Nombre:<input type="text" id="nombre" /> <br> Apellido: <input
 			type="text" id="apellido" /> <br> Curso: <input type="text"
 			id="curso" /> <br>
+			Email:<input type="text" id="email" /> <br>
 
 		<button type="button" onclick="enviarDatos()">Añadir</button>
 	</form>
