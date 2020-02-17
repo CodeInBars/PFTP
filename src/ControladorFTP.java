@@ -25,11 +25,11 @@ public class ControladorFTP {
 		// TODO Auto-generated constructor stub
 		FTPClient cliente = new FTPClient();
 
-		String servFTP = "192.168.2.35";
+		String servFTP = "files.000webhost.com";
 
 		System.out.println("Nos conectamos a: " + servFTP);
-		String usuario = "prudensito";
-		String clave = "1234";
+		String usuario = "pspdam";
+		String clave = "psp.2020";
 
 		try {
 			cliente.connect(servFTP);
@@ -43,9 +43,17 @@ public class ControladorFTP {
 				cliente.disconnect();
 				System.exit(1);
 			}
-			cliente.changeWorkingDirectory("files");
+			cliente.changeWorkingDirectory("/");
 			System.out.println("Directorio actual:" + cliente.printWorkingDirectory());
 
+			if (cliente.makeDirectory(direc)) {
+				System.out.println("Directorio creado");
+				cliente.changeWorkingDirectory(direc);
+				enviarEmail(email);
+			} else {
+				System.out.println("NO SE HA PODIDO CREAR DIRECTORIO");
+			}
+			
 			FTPFile[] files = cliente.listFiles();
 			System.out.println("Ficheros en el directorio actual:" + files.length);
 
@@ -55,13 +63,7 @@ public class ControladorFTP {
 				System.out.println("\t" + files[i].getName() + "=>" + tipos[files[i].getType()]);
 			}
 
-			if (cliente.makeDirectory(direc)) {
-				System.out.println("Directorio creado");
-				cliente.changeWorkingDirectory(direc);
-				enviarEmail(email);
-			} else {
-				System.out.println("NO SE HA PODIDO CREAR DIRECTORIO");
-			}
+			
 
 			boolean logout = cliente.logout();
 			if (logout) {
