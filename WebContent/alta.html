@@ -49,7 +49,29 @@
 		request.send("nombre=" + nombreVar + "&apellido=" + apellidoVar
 				+ "&curso=" + cursoVar );
 	}
+
+	function removeDir() {
+		var nombreVar = document.getElementById("nombre").value;
+		var request = new XMLHttpRequest();
+		request.open("POST", "ftp", true);
+		request.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		request.onreadystatechange = function() {
+			// si la respuesta fue exitosa
+			if (request.readyState == 4 && request.status == 200) {
+				alert('todo perfecto');
+			}
+			// si la respuesta trajo error
+			else if (request.readyState == 4 && request.status != 200) {
+				alert('todo perfecto');
+			}
+		};
+		
+		request.send("nombre=" + nombreVar);
+	}
+	
 </script>
+
 </head>
 <body>
 	<h2>Ejemplo de AJAX con Servelts</h2>

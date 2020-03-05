@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.SocketException;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -16,8 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Session;
@@ -38,13 +38,63 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class ControladorFTP {
 
 	private String fecha;
+	FTPClient cliente = new FTPClient();
+	static String servFTP = "files.000webhost.com";	
+	static String usuario = "pspdam";
+	static String clave = "psp.2020";
+	
+
+	public ControladorFTP() {
+		super();
+		try {
+			cliente.connect(servFTP);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void removeDir(String dir) {
+		try {
+			String servFTP = "files.000webhost.com";
+			System.out.println("Nos conectamos a: " + servFTP);
+			String usuario = "pspdam";
+			String clave = "psp.2020";
+
+			
+			cliente.connect(servFTP);
+			boolean login = cliente.login(usuario, clave);
+
+			if (login) {
+				System.out.println("Login correcto...");
+			} else {
+
+				System.out.println("Login incorrecto");
+				cliente.disconnect();
+				System.exit(1);
+			}
+			cliente.changeWorkingDirectory("/");
+			System.out.println("Directorio actual:" + cliente.printWorkingDirectory());
+
+			cliente.removeDirectory(dir);
+				
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+	}		
+	
 	
 	public void crearDir(String direc, String email) {
 		// TODO Auto-generated constructor stub
-		FTPClient cliente = new FTPClient();
 
 		String servFTP = "files.000webhost.com";
-
 		System.out.println("Nos conectamos a: " + servFTP);
 		String usuario = "pspdam";
 		String clave = "psp.2020";
@@ -65,6 +115,7 @@ public class ControladorFTP {
 			System.out.println("Directorio actual:" + cliente.printWorkingDirectory());
 
 			if (cliente.makeDirectory(direc)) {
+				
 				System.out.println("Directorio creado");
 				cliente.changeWorkingDirectory(direc);
 				enviarEmail2(email);
@@ -97,11 +148,6 @@ public class ControladorFTP {
 		}
 
 	}
-
-	public ControladorFTP() {
-		super();
-	}
-
 	private void enviarEmail2(String email) {
 		
 		String usuario = "psp2dam@gmail.com"; // en este ejemplo usamos una cuenta gmail
@@ -133,8 +179,6 @@ public class ControladorFTP {
 	
 			byte[] signature = sign.sign(); //Firmar
 	
-			cuerpo += "\n \nCuerpo firmado: " + signature.toString();
-	
 			//MANDAR MAIL
 			Properties props = System.getProperties();
 			props.put("mail.smtp.host", "smtp.gmail.com");
@@ -152,12 +196,13 @@ public class ControladorFTP {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 	
 			message.setSubject("HICH");
-			message.setText(cuerpo);
+			message.setText(cuerpo + "\nFirma: " +  signature.toString());
 			
-			adjunto.setDataHandler(new DataHandler(new FileDataSource("/home/lubuntu/Descargas/" + fecha + ".pdf")));
-			adjunto.setFileName("file.pdf");
-			multiParte.addBodyPart(adjunto);
-			message.setContent(multiParte);
+			//adjunto.setDataHandler(new DataHandler(new FileDataSource("/home/lubuntu/Descargas/" + fecha + ".pdf")));
+			//adjunto.setFileName("file.pdf");
+			//multiParte.addBodyPart(adjunto);
+			
+			//message.setContent(multiParte);
 			
 			Transport transport = session.getTransport("smtp");
 			transport.connect("smtp.gmail.com", usuario, pwd);
@@ -170,7 +215,7 @@ public class ControladorFTP {
 	}
 	
 	
-	public void imprimirFactura() {
+	public void enviarPdf() {
 		OutputStream file = null;
 		Document document = null;
 		PdfWriter pdfWriter = null;
@@ -205,6 +250,23 @@ public class ControladorFTP {
 			System.err.println(ex.getMessage());
 		}
 
+	}
+	
+	public boolean buscarDir(String dir) {
+		boolean res = false;
+		System.out.println(dir);
+		try {
+			cliente.changeToParentDirectory();
+			if(cliente.changeWorkingDirectory(dir)) {
+				res = true;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(res);
+		return res;
 	}
 	
 }

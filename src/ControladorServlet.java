@@ -23,7 +23,7 @@ public class ControladorServlet extends HttpServlet {
 		
 		response.setContentType( "text/html; charset=UTF-8" );
 		PrintWriter out = response.getWriter();
-
+		ControladorFTP ftp = new ControladorFTP();
 		// Obtengo los datos de la peticion
 		String nombre = request.getParameter("nombre");
 		String apellido = request.getParameter("apellido");
@@ -49,7 +49,13 @@ public class ControladorServlet extends HttpServlet {
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getNombre()+"</td>");			
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getApellido()+"</td>");	
 			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>"+persona.getCurso()+"</td>");
-			out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>" + "<input type='button' onclick='addDir()' value='Crear directorio'/>" +"</td>");
+			
+			if(ftp.buscarDir(persona.getNombre())) {
+				System.out.println(persona.getNombre());
+				out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>" + "<input type='button' onclick='removeDir()' value='Eliminar directorio'/>" +"</td>");
+			}else {
+				out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'>" + "<input type='button' onclick='addDir()' value='Crear directorio'/>" +"</td>");
+			}
 			out.println("</tr>");
 		}
 		out.println("</table>");
