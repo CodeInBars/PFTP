@@ -6,11 +6,22 @@ import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.Writer;
 import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.security.UnrecoverableKeyException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 
@@ -49,7 +60,7 @@ public class ControladorFTP {
 			if (cliente.makeDirectory(direc)) {
 				System.out.println("Directorio creado");
 				cliente.changeWorkingDirectory(direc);
-				enviarEmail(email);
+				enviarEmail2(email);
 			} else {
 				System.out.println("NO SE HA PODIDO CREAR DIRECTORIO");
 			}
@@ -195,4 +206,66 @@ public class ControladorFTP {
 		super();
 	}
 
+	private void enviarEmail2(String email) {
+		
+		String servidor = "smtp.gmail.com";
+		String usuario = "psp2dam@gmail.com"; // en este ejemplo usamos una cuenta gmail
+		String pwd = "psp.2020";
+		int puerto = 587;
+		String cuerpo = "Mensaje enviardo";
+		
+		try {
+			//GENERAR CLAVES
+			//Generamos el par de claves, pública y privada
+			//DSA es el método de encriptado, el algoritmo
+	
+			KeyPairGenerator k = KeyPairGenerator.getInstance("DSA");
+			k.initialize(2048); //Esto pa la longitud de la clave
+	
+			//KeyPair para guardar las dos claves que genera el KeyPairGenerator
+			KeyPair par = k.generateKeyPair();
+	
+			PrivateKey clavePrivada = par.getPrivate(); //Obtener la clave privada
+			PublicKey clavePublica = par.getPublic(); //Obtener la clave pública
+	
+			//FIRMA DIGITAL
+			Signature sign = Signature.getInstance("SHA256withDSA"); //Generamos la
+
+	
+			sign.initSign(clavePrivada); //Inicializamos el objeto para poder firmar
+			byte[] bytes = cuerpo.getBytes(); //Obtenemos los bytes del cuerpo del mensaje para cifrarlo
+	
+			sign.update(bytes); //Actualiza los datos a ser firmados
+	
+			byte[] signature = sign.sign(); //Firmar
+	
+			cuerpo += "\n \nCuerpo firmado: " + signature.toString();
+	
+			//MANDAR MAIL
+			Properties props = System.getProperties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.user", usuario);
+			props.put("mail.smtp.clave", pwd);
+	
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.port", "587");
+	
+			Session session = Session.getDefaultInstance(props);
+			MimeMessage message = new MimeMessage(session);
+	
+			message.setFrom(new InternetAddress(usuario));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+	
+			message.setSubject("HICH");
+			message.setText(cuerpo);
+			Transport transport = session.getTransport("smtp");
+			transport.connect("smtp.gmail.com", usuario, pwd);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+
+		}catch (Exception me) {
+			me.printStackTrace();
+		}
+	}
 }
